@@ -40,15 +40,18 @@ class UserStateViewModel(
             println("Error, $e")
         }
 
+    private fun getEmptyStringIfNull(double: Double?): String = if (double.toString() == "null") "" else double.toString()
+
     private fun updateFromDbCurrentUserInputs() {
         viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
             val user = userRepository.getUser()?.let { mapUserEntityToUserModel(it) }
-            _yearlyNetIncome.value = user?.yearlyNetIncome.toString()
-            _savingsGoal.value = user?.savingsGoal.toString()
-            _recurrentSpendings.value = user?.recurrentSpendings.toString()
-            if (user?.yearlyNetIncome != null && user.savingsGoal != null && user.recurrentSpendings != null) {
-                _userAlreadySetIncomeAndOutcomeData.value = true
-            }
+            _yearlyNetIncome.value = getEmptyStringIfNull(user?.yearlyNetIncome)
+            _savingsGoal.value = getEmptyStringIfNull(user?.savingsGoal)
+            _recurrentSpendings.value = getEmptyStringIfNull(user?.recurrentSpendings)
+            _userAlreadySetIncomeAndOutcomeData.value =
+                user?.yearlyNetIncome != null &&
+                user.savingsGoal != null &&
+                user.recurrentSpendings != null
         }
     }
 
