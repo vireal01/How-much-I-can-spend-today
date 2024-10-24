@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import com.vireal.hmicst.ui.main_screen.MainScreenViewModel
 import com.vireal.hmicst.ui.navigation.Screens
 import com.vireal.hmicst.ui.navigation.income_outcome_settings_flow.userIncomeAndOutcomeSettings
 import com.vireal.hmicst.ui.navigation.main_flow.mainScreen
@@ -29,6 +30,7 @@ import org.koin.compose.viewmodel.koinViewModel
 fun App() {
     KoinContext {
         val userStateViewModel = koinViewModel<UserStateViewModel>()
+        val mainScreenViewModel = koinViewModel<MainScreenViewModel>()
 
         var isLoading by remember { mutableStateOf(true) }
         val isUserAlreadySetIncomeAndOutcomeData =
@@ -57,6 +59,7 @@ fun App() {
                     navController = navController,
                     startDestination = startDestination,
                     userStateViewModel = userStateViewModel,
+                    mainScreenViewModel = mainScreenViewModel,
                 )
             }
         }
@@ -68,12 +71,13 @@ fun HMICSTHost(
     navController: NavHostController,
     startDestination: Screens,
     userStateViewModel: UserStateViewModel,
+    mainScreenViewModel: MainScreenViewModel,
 ) {
     NavHost(
         navController = navController,
         startDestination = startDestination.route,
     ) {
         userIncomeAndOutcomeSettings(navController, userStateViewModel)
-        mainScreen(navController)
+        mainScreen(navController, mainScreenViewModel)
     }
 }

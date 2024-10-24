@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "9c1f43704be6e27eff4b0f14b99b9944",
+    "identityHash": "33f699a8a7e7a1f6414c9c729c8b37db",
     "entities": [
       {
         "tableName": "users",
@@ -44,7 +44,7 @@
       },
       {
         "tableName": "transactions",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `title` TEXT, `date` INTEGER NOT NULL, `amount` REAL NOT NULL, `categoryId` TEXT NOT NULL, `userId` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `title` TEXT, `date` TEXT NOT NULL, `amount` REAL NOT NULL, `categoryId` TEXT NOT NULL, `userId` INTEGER NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -60,7 +60,7 @@
           {
             "fieldPath": "date",
             "columnName": "date",
-            "affinity": "INTEGER",
+            "affinity": "TEXT",
             "notNull": true
           },
           {
@@ -121,7 +121,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '9c1f43704be6e27eff4b0f14b99b9944')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '33f699a8a7e7a1f6414c9c729c8b37db')"
     ]
   }
 }

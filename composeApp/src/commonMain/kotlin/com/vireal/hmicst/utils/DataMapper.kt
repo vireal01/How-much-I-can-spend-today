@@ -41,7 +41,6 @@ fun mapUserEntityToUserModel(userEntity: UserEntity): UserModel =
 
 fun mapTransactionModelToTransactionEntity(transactionModel: TransactionModel): TransactionEntity =
     TransactionEntity(
-        id = transactionModel.id,
         date = transactionModel.date,
         amount = transactionModel.amount,
         categoryId = transactionModel.categoryId,
