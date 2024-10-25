@@ -28,6 +28,7 @@ fun mapUserModelToUserEntity(userModel: UserModel): UserEntity =
         recurrentSpendings = userModel.recurrentSpendings,
         savingsGoal = userModel.savingsGoal,
         startDate = userModel.startDate,
+        dailyBalance = userModel.dailyBalance
     )
 
 fun mapUserEntityToUserModel(userEntity: UserEntity): UserModel =
@@ -37,6 +38,7 @@ fun mapUserEntityToUserModel(userEntity: UserEntity): UserModel =
         recurrentSpendings = userEntity.recurrentSpendings,
         savingsGoal = userEntity.savingsGoal,
         startDate = userEntity.startDate,
+        dailyBalance = userEntity.dailyBalance
     )
 
 fun mapTransactionModelToTransactionEntity(transactionModel: TransactionModel): TransactionEntity =

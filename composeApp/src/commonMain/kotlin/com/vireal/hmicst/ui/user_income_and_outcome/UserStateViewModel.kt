@@ -10,6 +10,10 @@ import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 
 class UserStateViewModel(
     private val userRepository: UserRepository,
@@ -106,18 +110,50 @@ class UserStateViewModel(
                 yearlyNetIncome = _yearlyNetIncome.value.toDoubleOrNull(),
                 savingsGoal = _savingsGoal.value.toDoubleOrNull(),
                 recurrentSpendings = _recurrentSpendings.value.toDoubleOrNull(),
+                dailyBalance = getDailyAvailableMoneyAmount()
             )
             setData()
         }
+    }
+
+    private fun getDaysInCurrentYear(): Int {
+        val currentYear =
+            Clock.System
+                .now()
+                .toLocalDateTime(TimeZone.currentSystemDefault())
+                .date.year
+        val endOfYear = LocalDate(currentYear, 12, 31)
+
+        return endOfYear.dayOfYear
+    }
+
+    private fun String.toDoubleOrZero(): Double {
+        return try {
+            this.toDouble()
+        } catch (e: NumberFormatException) {
+            0.0
+        }
+    }
+
+    private fun getDailyAvailableMoneyAmount(): Double {
+        val income = _yearlyNetIncome.value.toDoubleOrZero()
+        val spendings =  _recurrentSpendings.value.toDoubleOrZero()
+        val savings = _savingsGoal.value.toDoubleOrZero()
+        val daysInYear = getDaysInCurrentYear().takeIf { it > 0 } ?: return 0.0
+
+        println("income - $income, savings -$savings, spendings - $spendings, daysInYear - $daysInYear")
+
+        return ((income - spendings - savings) / daysInYear)
     }
 
     private fun updateUserIncomeAndOutcomeData(
         yearlyNetIncome: Double?,
         savingsGoal: Double?,
         recurrentSpendings: Double?,
+        dailyBalance: Double
     ) {
         viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
-            userRepository.updateUserData(yearlyNetIncome, savingsGoal, recurrentSpendings)
+            userRepository.updateUserData(yearlyNetIncome, savingsGoal, recurrentSpendings, dailyBalance)
         }
     }
 }

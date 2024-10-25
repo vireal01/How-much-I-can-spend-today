@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "33f699a8a7e7a1f6414c9c729c8b37db",
+    "identityHash": "9c6bab66093ec3003b846a7d5f6a34bb",
     "entities": [
       {
         "tableName": "users",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `startDate` INTEGER, `yearlyNetIncome` REAL, `recurrentSpendings` REAL, `savingsGoal` REAL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `startDate` INTEGER, `yearlyNetIncome` REAL, `recurrentSpendings` REAL, `savingsGoal` REAL, `dailyBalance` REAL NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -33,6 +33,12 @@
             "fieldPath": "savingsGoal",
             "columnName": "savingsGoal",
             "affinity": "REAL"
+          },
+          {
+            "fieldPath": "dailyBalance",
+            "columnName": "dailyBalance",
+            "affinity": "REAL",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -121,7 +127,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '33f699a8a7e7a1f6414c9c729c8b37db')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '9c6bab66093ec3003b846a7d5f6a34bb')"
     ]
   }
 }

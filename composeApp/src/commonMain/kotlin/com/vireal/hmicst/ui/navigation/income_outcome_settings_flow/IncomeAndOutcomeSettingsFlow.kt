@@ -1,6 +1,5 @@
 package com.vireal.hmicst.ui.navigation.income_outcome_settings_flow
 
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable

@@ -10,4 +10,5 @@ data class UserEntity(
     val yearlyNetIncome: Double?,
     val recurrentSpendings: Double?,
     val savingsGoal: Double?,
+    val dailyBalance: Double
 )

@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vireal.hmicst.data.models.TransactionModel
 import com.vireal.hmicst.data.repository.TransactionRepository
+import com.vireal.hmicst.data.repository.UserRepository
 import com.vireal.hmicst.ui.models.StubTransaction
-import com.vireal.hmicst.ui.user_income_and_outcome.UserStateViewModel
 import com.vireal.hmicst.utils.mapTransactionEntityToTransactionModel
 import com.vireal.hmicst.utils.mapTransactionModelToTransactionEntity
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -26,7 +26,7 @@ import kotlinx.datetime.toLocalDateTime
 
 class MainScreenViewModel(
     private val transactionRepository: TransactionRepository,
-    private val userStateViewModel: UserStateViewModel,
+    private val useRepository: UserRepository,
 ) : ViewModel() {
     private var _allTransactionsForSelectedDay =
         MutableStateFlow<List<TransactionModel>>(mutableListOf())
@@ -54,7 +54,7 @@ class MainScreenViewModel(
         viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
             observeTransactionsForSelectedDate()
             observeTotalSpentForSelectedDate()
-            _dailyAvailableMoneyAmount.value = getDailyAvailableMoneyAmount()
+            observeDailyBalance()
         }
     }
 
@@ -82,30 +82,10 @@ class MainScreenViewModel(
         }
     }
 
-    private fun getDaysInCurrentYear(): Int {
-        val currentYear =
-            Clock.System
-                .now()
-                .toLocalDateTime(TimeZone.currentSystemDefault())
-                .date.year
-        val endOfYear = LocalDate(currentYear, 12, 31)
-
-        return endOfYear.dayOfYear
-    }
-
-    fun updateDailyAvailableMoney() {
-        _dailyAvailableMoneyAmount.value = getDailyAvailableMoneyAmount()
-    }
-
-    fun getDailyAvailableMoneyAmount(): Double {
-        val income = userStateViewModel.yearlyNetIncome.value.toDoubleOrNull() ?: return 0.0
-        val spendings = userStateViewModel.recurrentSpendings.value.toDoubleOrNull() ?: return 0.0
-        val savings = userStateViewModel.savingsGoal.value.toDoubleOrNull() ?: return 0.0
-        val daysInYear = getDaysInCurrentYear().takeIf { it > 0 } ?: return 0.0
-
-        println("income - $income, savings -$savings, spendings - $spendings, daysInYear - $daysInYear")
-
-        return ((income - spendings - savings) / daysInYear)
+    private fun observeDailyBalance() {
+        viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
+            useRepository.observeDailyBalance().collect { dailyBalance -> _dailyAvailableMoneyAmount.value = dailyBalance }
+        }
     }
 
     fun selectNextDay() {
