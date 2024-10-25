@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "9c6bab66093ec3003b846a7d5f6a34bb",
+    "identityHash": "47cba113f49669479eb0374c304b8e27",
     "entities": [
       {
         "tableName": "users",
@@ -123,11 +123,41 @@
             "id"
           ]
         }
+      },
+      {
+        "tableName": "daily_balance",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`date` TEXT NOT NULL, `startDateBalance` REAL NOT NULL, `endDateBalance` REAL NOT NULL, PRIMARY KEY(`date`))",
+        "fields": [
+          {
+            "fieldPath": "date",
+            "columnName": "date",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "startDateBalance",
+            "columnName": "startDateBalance",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "endDateBalance",
+            "columnName": "endDateBalance",
+            "affinity": "REAL",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "date"
+          ]
+        }
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '9c6bab66093ec3003b846a7d5f6a34bb')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '47cba113f49669479eb0374c304b8e27')"
     ]
   }
 }

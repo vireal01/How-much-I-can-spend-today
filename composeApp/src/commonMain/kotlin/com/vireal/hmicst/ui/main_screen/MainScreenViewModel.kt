@@ -3,6 +3,7 @@ package com.vireal.hmicst.ui.main_screen
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vireal.hmicst.data.models.TransactionModel
+import com.vireal.hmicst.data.repository.DailyBalanceRepository
 import com.vireal.hmicst.data.repository.TransactionRepository
 import com.vireal.hmicst.data.repository.UserRepository
 import com.vireal.hmicst.ui.models.StubTransaction
@@ -27,6 +28,7 @@ import kotlinx.datetime.toLocalDateTime
 class MainScreenViewModel(
     private val transactionRepository: TransactionRepository,
     private val useRepository: UserRepository,
+    private val dailyBalanceRepository: DailyBalanceRepository
 ) : ViewModel() {
     private var _allTransactionsForSelectedDay =
         MutableStateFlow<List<TransactionModel>>(mutableListOf())
@@ -55,6 +57,8 @@ class MainScreenViewModel(
             observeTransactionsForSelectedDate()
             observeTotalSpentForSelectedDate()
             observeDailyBalance()
+            // remove the code block below, it was for testing purposes. Create a flow to create a new dailyBalance entity
+            // dailyBalanceRepository.insertDailyBalance(DailyBalanceEntity(date = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date, 200.0, 0.0), )
         }
     }
 
@@ -100,6 +104,7 @@ class MainScreenViewModel(
         viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
             val dummyTransaction = StubTransaction.musicItem.copy(date = selectedDate.value)
             transactionRepository.insertTransaction(mapTransactionModelToTransactionEntity(dummyTransaction))
+            dailyBalanceRepository.updateEndDateAmount(selectedDate.value, 1)
         }
     }
 }
