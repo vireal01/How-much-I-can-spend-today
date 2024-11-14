@@ -13,3 +13,5 @@ fun getDateFromTimestamp(timestamp: Long): LocalDate {
     val dateTime = instant.toLocalDateTime(TimeZone.currentSystemDefault())
     return dateTime.date
 }
+
+fun getCurrentLocalDate(): LocalDate = getDateFromTimestamp(getCurrentTimestamp().toEpochMilliseconds())

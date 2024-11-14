@@ -1,9 +1,11 @@
 package com.vireal.hmicst.utils
 
 import com.vireal.hmicst.data.database.entities.CategoryEntity
+import com.vireal.hmicst.data.database.entities.DailyBalanceEntity
 import com.vireal.hmicst.data.database.entities.TransactionEntity
 import com.vireal.hmicst.data.database.entities.UserEntity
 import com.vireal.hmicst.data.models.CategoryModel
+import com.vireal.hmicst.data.models.DailyBalanceModel
 import com.vireal.hmicst.data.models.TransactionModel
 import com.vireal.hmicst.data.models.UserModel
 
@@ -28,7 +30,7 @@ fun mapUserModelToUserEntity(userModel: UserModel): UserEntity =
         recurrentSpendings = userModel.recurrentSpendings,
         savingsGoal = userModel.savingsGoal,
         startDate = userModel.startDate,
-        dailyBalance = userModel.dailyBalance
+        dailyBalance = userModel.dailyBalance,
     )
 
 fun mapUserEntityToUserModel(userEntity: UserEntity): UserModel =
@@ -38,7 +40,7 @@ fun mapUserEntityToUserModel(userEntity: UserEntity): UserModel =
         recurrentSpendings = userEntity.recurrentSpendings,
         savingsGoal = userEntity.savingsGoal,
         startDate = userEntity.startDate,
-        dailyBalance = userEntity.dailyBalance
+        dailyBalance = userEntity.dailyBalance,
     )
 
 fun mapTransactionModelToTransactionEntity(transactionModel: TransactionModel): TransactionEntity =
@@ -58,4 +60,18 @@ fun mapTransactionEntityToTransactionModel(transactionEntity: TransactionEntity)
         categoryId = transactionEntity.categoryId,
         userId = transactionEntity.userId,
         title = transactionEntity.title,
+    )
+
+fun mapDailyBalanceEntityToDailyBalanceModel(dailyBalanceEntity: DailyBalanceEntity): DailyBalanceModel =
+    DailyBalanceModel(
+        id = dailyBalanceEntity.id,
+        startDateBalance = dailyBalanceEntity.startDateBalance,
+        endDateBalance = dailyBalanceEntity.endDateBalance,
+    )
+
+fun mapDailyBalanceModelToDailyBalanceEntity(dailyBalanceModel: DailyBalanceModel): DailyBalanceEntity =
+    DailyBalanceEntity(
+        id = dailyBalanceModel.id,
+        startDateBalance = dailyBalanceModel.startDateBalance,
+        endDateBalance = dailyBalanceModel.endDateBalance,
     )

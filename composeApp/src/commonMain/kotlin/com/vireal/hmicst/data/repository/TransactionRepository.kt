@@ -27,4 +27,7 @@ class TransactionRepository(
     }
 
     fun getTotalSpentForSelectedDate(date: LocalDate) = transactionDao.getTotalSpentForDay(date = date).flowOn(Dispatchers.IO)
+
+    suspend fun getSumOfAllTransactionsForSelectedDate(date: LocalDate): Double =
+        transactionDao.getTransactionsByDate(date).map { it.amount }.reduce { acc, transactionAmount -> acc + transactionAmount }
 }

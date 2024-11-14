@@ -30,7 +30,7 @@ fun RestAmountChart(viewModel: MainScreenViewModel) {
 
         Text(
             text =
-                viewModel.dailyAvailableMoneyAmount
+                viewModel.remainingForToday
                     .collectAsState()
                     .value
                     .toString(),
