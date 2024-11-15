@@ -19,7 +19,7 @@ class UserRepository(
                 yearlyNetIncome = null,
                 recurrentSpendings = null,
                 savingsGoal = null,
-                dailyBalance = 0.0
+                dailyBalance = 0.0,
             )
         userDao.insertUser(defaultUser)
     }
@@ -28,13 +28,13 @@ class UserRepository(
         yearlyNetIncome: Double?,
         savingsGoal: Double?,
         recurrentSpendings: Double?,
-        dailyBalance: Double
+        dailyBalance: Double,
     ) {
         userDao.updateUser(
             yearlyNetIncome = yearlyNetIncome,
             recurrentSpendings = recurrentSpendings,
             savingsGoal = savingsGoal,
-            dailyBalance = dailyBalance
+            dailyBalance = dailyBalance,
         )
     }
 
@@ -42,6 +42,6 @@ class UserRepository(
         userDao.deleteUserById(userId)
     }
 
-    fun observeDailyBalance(userId: Long = 1) =
-        userDao.observeDailyBalance(userId).flowOn(Dispatchers.IO)
+    // TODO: Rename dailyBalance to dailyAvailableAmount
+    fun observeDailyBalance(userId: Long = 1) = userDao.observeDailyBalance(userId).flowOn(Dispatchers.IO)
 }

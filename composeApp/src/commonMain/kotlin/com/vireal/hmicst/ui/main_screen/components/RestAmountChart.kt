@@ -16,6 +16,7 @@ import com.vireal.hmicst.ui.main_screen.MainScreenViewModel
 
 @Composable
 fun RestAmountChart(viewModel: MainScreenViewModel) {
+    val remainingAmount = viewModel.todayEndDateBalanceAmount.collectAsState()
     Column(
         modifier =
             Modifier
@@ -30,8 +31,7 @@ fun RestAmountChart(viewModel: MainScreenViewModel) {
 
         Text(
             text =
-                viewModel.remainingForToday
-                    .collectAsState()
+                remainingAmount
                     .value
                     .toString(),
         )

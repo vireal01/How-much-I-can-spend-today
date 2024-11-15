@@ -13,6 +13,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -41,6 +42,10 @@ fun Content(
     val selectedDate = viewModel.selectedDate.collectAsState()
     val transactions = viewModel.allTransactionsForSelectedDay.collectAsState()
     val totalSpentToday = viewModel.totalSpentForSelectedDay.collectAsState()
+
+    LaunchedEffect(true) {
+        viewModel.init()
+    }
     Column(
         modifier =
             Modifier
@@ -68,6 +73,7 @@ fun Content(
             onSelectNextDayClicked = viewModel::selectNextDay,
             onSelectPreviousDayClicked = viewModel::selectPreviousDay,
             selectedDate = selectedDate.value,
+            onDateClicked = viewModel::selectCurrentDay,
         )
         Spacer(modifier = Modifier.width(48.dp))
 

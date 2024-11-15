@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "e999227e5e914a3c7a5859e77186108d",
+    "identityHash": "6e29314aadf85fdd61a65bfa5c042ac5",
     "entities": [
       {
         "tableName": "users",
@@ -126,42 +126,7 @@
       },
       {
         "tableName": "daily_balances",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `startDateBalance` REAL NOT NULL, `endDateBalance` REAL, `userId` INTEGER NOT NULL, PRIMARY KEY(`id`))",
-        "fields": [
-          {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "startDateBalance",
-            "columnName": "startDateBalance",
-            "affinity": "REAL",
-            "notNull": true
-          },
-          {
-            "fieldPath": "endDateBalance",
-            "columnName": "endDateBalance",
-            "affinity": "REAL"
-          },
-          {
-            "fieldPath": "userId",
-            "columnName": "userId",
-            "affinity": "INTEGER",
-            "notNull": true
-          }
-        ],
-        "primaryKey": {
-          "autoGenerate": false,
-          "columnNames": [
-            "id"
-          ]
-        }
-      },
-      {
-        "tableName": "daily_balance",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`date` TEXT NOT NULL, `startDateBalance` REAL NOT NULL, `endDateBalance` REAL NOT NULL, PRIMARY KEY(`date`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`date` TEXT NOT NULL, `startDateBalance` REAL NOT NULL, `endDateBalance` REAL NOT NULL, `userId` INTEGER NOT NULL, PRIMARY KEY(`date`))",
         "fields": [
           {
             "fieldPath": "date",
@@ -180,6 +145,12 @@
             "columnName": "endDateBalance",
             "affinity": "REAL",
             "notNull": true
+          },
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -192,7 +163,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e999227e5e914a3c7a5859e77186108d')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '6e29314aadf85fdd61a65bfa5c042ac5')"
     ]
   }
 }

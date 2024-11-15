@@ -29,5 +29,10 @@ class TransactionRepository(
     fun getTotalSpentForSelectedDate(date: LocalDate) = transactionDao.getTotalSpentForDay(date = date).flowOn(Dispatchers.IO)
 
     suspend fun getSumOfAllTransactionsForSelectedDate(date: LocalDate): Double =
-        transactionDao.getTransactionsByDate(date).map { it.amount }.reduce { acc, transactionAmount -> acc + transactionAmount }
+        transactionDao
+            .getTransactionsByDate(date)
+            .map { it.amount }
+            .reduceOrNull { acc, transactionAmount -> acc + transactionAmount }
+            ?: 0.0
 }
+// TODO: Add daily amount for all skipped days, fix Remaining for today state

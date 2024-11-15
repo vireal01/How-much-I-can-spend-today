@@ -64,14 +64,14 @@ fun mapTransactionEntityToTransactionModel(transactionEntity: TransactionEntity)
 
 fun mapDailyBalanceEntityToDailyBalanceModel(dailyBalanceEntity: DailyBalanceEntity): DailyBalanceModel =
     DailyBalanceModel(
-        id = dailyBalanceEntity.id,
+        date = dailyBalanceEntity.date,
         startDateBalance = dailyBalanceEntity.startDateBalance,
         endDateBalance = dailyBalanceEntity.endDateBalance,
     )
 
 fun mapDailyBalanceModelToDailyBalanceEntity(dailyBalanceModel: DailyBalanceModel): DailyBalanceEntity =
     DailyBalanceEntity(
-        id = dailyBalanceModel.id,
+        date = dailyBalanceModel.date,
         startDateBalance = dailyBalanceModel.startDateBalance,
         endDateBalance = dailyBalanceModel.endDateBalance,
     )

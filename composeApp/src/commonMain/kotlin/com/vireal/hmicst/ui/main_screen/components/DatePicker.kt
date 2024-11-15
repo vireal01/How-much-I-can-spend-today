@@ -15,6 +15,7 @@ import kotlinx.datetime.LocalDate
 fun DatePicker(
     onSelectPreviousDayClicked: () -> Unit,
     onSelectNextDayClicked: () -> Unit,
+    onDateClicked: () -> Unit,
     selectedDate: LocalDate,
 ) {
     Row {
@@ -31,7 +32,9 @@ fun DatePicker(
             text =
                 selectedDate.toString(),
             modifier =
-                Modifier.padding(16.dp),
+                Modifier.padding(16.dp).clickable {
+                    onDateClicked()
+                },
             textAlign = TextAlign.Center,
             style = typography.bodyLarge,
         )
