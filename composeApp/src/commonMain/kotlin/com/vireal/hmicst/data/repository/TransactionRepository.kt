@@ -1,7 +1,8 @@
 package com.vireal.hmicst.data.repository
 
 import com.vireal.hmicst.data.database.dao.TransactionDao
-import com.vireal.hmicst.data.database.entities.TransactionEntity
+import com.vireal.hmicst.data.models.TransactionModel
+import com.vireal.hmicst.utils.mapTransactionModelToTransactionEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.flowOn
@@ -22,8 +23,8 @@ class TransactionRepository(
 
     suspend fun getNumberOfTransactionsForUser(userId: Long = 1) = transactionDao.getNumberOfTransactionsForUser(userId)
 
-    suspend fun insertTransaction(transactionEntity: TransactionEntity) {
-        transactionDao.insertTransaction(transactionEntity)
+    suspend fun insertTransaction(transactionModel: TransactionModel) {
+        transactionDao.insertTransaction(mapTransactionModelToTransactionEntity(transactionModel))
     }
 
     fun getTotalSpentForSelectedDate(date: LocalDate) = transactionDao.getTotalSpentForDay(date = date).flowOn(Dispatchers.IO)

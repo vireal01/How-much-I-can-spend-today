@@ -69,4 +69,10 @@ interface DailyBalanceDao {
         date: LocalDate,
         userId: Long,
     ): Flow<Double>
+
+    @Query("SELECT COUNT(*) > 0 FROM daily_balances WHERE userId = :userId AND date = :date")
+    fun hasDailyBalanceForSelectedDate(
+        date: LocalDate,
+        userId: Long,
+    ): Flow<Boolean>
 }

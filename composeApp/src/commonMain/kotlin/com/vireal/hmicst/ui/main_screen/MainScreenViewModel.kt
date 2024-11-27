@@ -9,7 +9,6 @@ import com.vireal.hmicst.data.repository.UserRepository
 import com.vireal.hmicst.ui.models.StubTransaction
 import com.vireal.hmicst.utils.getCurrentLocalDate
 import com.vireal.hmicst.utils.mapTransactionEntityToTransactionModel
-import com.vireal.hmicst.utils.mapTransactionModelToTransactionEntity
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -39,6 +38,9 @@ class MainScreenViewModel(
     private val _todayEndDateBalanceAmount = MutableStateFlow(0.0)
     val todayEndDateBalanceAmount: StateFlow<Double> = _todayEndDateBalanceAmount
 
+    private val _isSelectedDateInited = MutableStateFlow(false)
+    val isSelectedDateInited: StateFlow<Boolean> = _isSelectedDateInited
+
     private val _dailyAllowance = MutableStateFlow(0.0)
     val dailyAllowance: StateFlow<Double> = _dailyAllowance
 
@@ -64,6 +66,7 @@ class MainScreenViewModel(
             observeTotalSpentForSelectedDate()
             observeRemainingForTodayAmount()
             observeEndDateBalanceForSelectedDate()
+            observeIsSelectedDataWasInited()
         }
     }
 
@@ -122,40 +125,41 @@ class MainScreenViewModel(
         _selectedDate.value = getCurrentLocalDate()
     }
 
+    // TODO: Debug method. Should be removed
     fun createDummyTransactionForSelectedDay() {
         viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
             val dummyTransaction = StubTransaction.musicItem.copy(date = selectedDate.value)
-            transactionRepository.insertTransaction(
-                mapTransactionModelToTransactionEntity(
-                    dummyTransaction,
-                ),
-            )
-            dailyBalanceRepository.recalculateCurrentStartDailyBudgetInCaseTransactionMadeInThePast(
-                transactionDate = dummyTransaction.date,
-                transactionAmount = dummyTransaction.amount,
+            transactionRepository.insertTransaction(dummyTransaction)
+            dailyBalanceRepository.addTransaction(
+                transaction = dummyTransaction,
                 dailyAllowance = dailyAllowance.value,
             )
         }
     }
 
+    fun onISpentNothingOnTheDateClicked() {
+        viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
+            dailyBalanceRepository.getOrInitDailyBalanceForSelectedDate(
+                date = selectedDate.value,
+                dailyAllowance = dailyAllowance.value,
+            )
+        }
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    fun observeIsSelectedDataWasInited() {
+        viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
+            selectedDate
+                .flatMapLatest { date ->
+                    dailyBalanceRepository.observeDailyBalanceForSelectedDate(date, userId = 1)
+                }.collect {
+                    _isSelectedDateInited.value = it
+                }
+        }
+    }
+
     private fun getOrInitDailyBalancesForToday() {
         viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
-            // Set endDateBalance for the last tracked day
-//            val lastDayWithTransactionsBeforeToday = dailyBalanceRepository.getLastBalanceBeforeDate()
-//            if (lastDayWithTransactionsBeforeToday?.endDateBalance == null && lastDayWithTransactionsBeforeToday != null) {
-//                println("getOrInitDailyBalancesForToday - last date ${lastDayWithTransactionsBeforeToday.date}")
-
-//                dailyBalanceRepository.calculateEndDateBalanceForSelectedDay(
-//                    date = lastDayWithTransactionsBeforeToday.date,
-//                    dailyBalance = dailyAllowance.value,
-//                    transactionsSumForTheDate =
-//                        transactionRepository.getSumOfAllTransactionsForSelectedDate(
-//                            date = lastDayWithTransactionsBeforeToday.date,
-//                        ),
-//                )
-//            }
-
-            // get or create info about today's budget
             val currentDateDailyBalance =
                 dailyBalanceRepository.getOrInitDailyBalanceForSelectedDate(
                     date = getCurrentLocalDate(),

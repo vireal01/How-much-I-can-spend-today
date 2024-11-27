@@ -42,6 +42,7 @@ fun Content(
     val selectedDate = viewModel.selectedDate.collectAsState()
     val transactions = viewModel.allTransactionsForSelectedDay.collectAsState()
     val totalSpentToday = viewModel.totalSpentForSelectedDay.collectAsState()
+    val isSelectedDateInited = viewModel.isSelectedDateInited.collectAsState()
 
     LaunchedEffect(true) {
         viewModel.init()
@@ -84,6 +85,8 @@ fun Content(
             onCreateStubTransactionBtnClick = viewModel::createDummyTransactionForSelectedDay,
             transactions = transactions,
             totalSpentToday = totalSpentToday,
+            isSelectedDateInited = isSelectedDateInited,
+            onISpentNothingOnTheDateClicked = viewModel::onISpentNothingOnTheDateClicked,
         )
     }
 }
