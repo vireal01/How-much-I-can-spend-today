@@ -26,21 +26,43 @@ import com.vireal.hmicst.ui.common.TransactionCell
 @Composable
 fun Transactions(
     onCreateStubTransactionBtnClick: () -> Unit,
+    onISpentNothingOnTheDateClicked: () -> Unit,
     transactions: State<List<TransactionModel>>,
     totalSpentToday: State<Double>,
+    isSelectedDateInited: State<Boolean>,
 ) {
-    Column {
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        if (!isSelectedDateInited.value) {
+            Text(
+                text = "Looks like there are no transactions foe the date",
+                color = MaterialTheme.colorScheme.onSurface,
+                style = MaterialTheme.typography.bodyMedium,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+            Button(onClick = { onISpentNothingOnTheDateClicked() }) {
+                Text(
+                    text = "I Spent nothing on the date :)",
+                    color = MaterialTheme.colorScheme.onSurface,
+                    style = MaterialTheme.typography.bodyMedium,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
+            }
+        }
+        println("transactions.value.size =  ${transactions.value.size}")
         Button(onClick = { onCreateStubTransactionBtnClick() }) {
             Text(
-                text = "Created dummy transaction",
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                text = "+",
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
                 style = MaterialTheme.typography.bodyMedium,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
         }
-
-        println("transactions.value.size =  ${transactions.value.size}")
         if (transactions.value.isEmpty()) {
             Placeholder()
         } else {
