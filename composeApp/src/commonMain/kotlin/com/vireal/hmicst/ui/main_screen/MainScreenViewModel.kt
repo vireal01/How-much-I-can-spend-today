@@ -128,7 +128,7 @@ class MainScreenViewModel(
     // TODO: Debug method. Should be removed
     fun createDummyTransactionForSelectedDay() {
         viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
-            val dummyTransaction = StubTransaction.musicItem.copy(date = selectedDate.value)
+            val dummyTransaction = StubTransaction.incomeTransaction.copy(date = selectedDate.value)
             transactionRepository.insertTransaction(dummyTransaction)
             dailyBalanceRepository.addTransaction(
                 transaction = dummyTransaction,

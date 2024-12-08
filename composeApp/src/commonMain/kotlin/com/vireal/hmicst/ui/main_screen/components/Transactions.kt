@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
@@ -20,7 +20,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import com.vireal.hmicst.data.models.TransactionModel
 import com.vireal.hmicst.ui.Paddings
-import com.vireal.hmicst.ui.common.TransactionCell
+import com.vireal.hmicst.ui.main_screen.components.transactionCell.TransactionCell
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -70,11 +70,13 @@ fun Transactions(
             LazyColumn(
                 contentPadding = PaddingValues(Paddings.one),
                 verticalArrangement = Arrangement.spacedBy(Paddings.half),
-                modifier = Modifier.padding(top = Paddings.half),
+                modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 items(transactions.value, key = { transaction -> transaction.id ?: 0 }) { transaction ->
-                    Box(modifier = Modifier.animateItemPlacement()) {
+                    Box(
+                        modifier = Modifier.animateItemPlacement(),
+                    ) {
                         TransactionCell(
                             transactionModel = transaction,
                         )

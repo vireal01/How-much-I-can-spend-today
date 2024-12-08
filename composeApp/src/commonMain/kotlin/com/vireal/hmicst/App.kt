@@ -3,7 +3,6 @@ package com.vireal.hmicst
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -16,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import com.vireal.hmicst.theme.HMICSTTheme
 import com.vireal.hmicst.ui.main_screen.MainScreenViewModel
 import com.vireal.hmicst.ui.navigation.Screens
 import com.vireal.hmicst.ui.navigation.income_outcome_settings_flow.userIncomeAndOutcomeSettings
@@ -54,7 +54,7 @@ fun App() {
                 if (isUserAlreadySetIncomeAndOutcomeData == true) Screens.MainAppContent else Screens.UserIncomeAndOutcomeSettings
             val navController = rememberNavController()
 
-            MaterialTheme {
+            HMICSTTheme {
                 HMICSTHost(
                     navController = navController,
                     startDestination = startDestination,

@@ -21,6 +21,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.vireal.hmicst.ui.Paddings
 import com.vireal.hmicst.ui.main_screen.components.DatePicker
 import com.vireal.hmicst.ui.main_screen.components.RestAmountChart
 import com.vireal.hmicst.ui.main_screen.components.Transactions
@@ -50,8 +51,8 @@ fun Content(
     Column(
         modifier =
             Modifier
-                .padding(30.dp)
                 .fillMaxWidth()
+                .padding(vertical = Paddings.one)
                 .wrapContentSize(Alignment.Center)
                 .clip(shape = RoundedCornerShape(16.dp)),
         verticalArrangement = Arrangement.Center,
